@@ -29,5 +29,5 @@
 - name: Run the VMware Fusion License Tool
   become: true
   command: /Applications/VMware\ Fusion.app/Contents/Library/Initialize\ VMware\ Fusion.tool set
-  when: fusion_lic_file.changed
+  when: fusion_lic_file.changed  # noqa 503
   tags: vault
