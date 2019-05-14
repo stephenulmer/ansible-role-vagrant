@@ -3,6 +3,7 @@ galaxy_info:
   author: Stephen Ulmer
   description: Vagrant Workstation for macOS
   company: Alleve Consulting, Inc.
+  license: MIT
 
   min_ansible_version: 2.5
 
