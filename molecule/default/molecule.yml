@@ -1,0 +1,24 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: vmware_desktop
+lint:
+  name: yamllint
+platforms:
+  - name: macos-mojave
+    box: msl/macos_mojave_10.14
+    memory: 2048
+    cpus: 2
+    config_options:
+      synced_folder: False
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
