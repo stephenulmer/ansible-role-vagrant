@@ -4,7 +4,7 @@
     path: "{{ ansible_env.HOME }}/.bashrc"
     state: touch
     access_time: preserve
-    modification_time: preserve 
+    modification_time: preserve
 
 - name: Set VAGRANT_DOTFILE_PATH in .bashrc
   lineinfile:
@@ -59,4 +59,3 @@
       changed_when: false
   tags:
     - vault
-

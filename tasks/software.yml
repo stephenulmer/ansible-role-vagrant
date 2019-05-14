@@ -3,7 +3,6 @@
   command: "/usr/local/bin/vagrant plugin list"
   register: installed_plugins
   changed_when: false
-  #check_mode: yes
 
 - name: Install Vagrant Plugins
   command: /usr/local/bin/vagrant plugin install {{ item }}
@@ -32,4 +31,3 @@
   command: /Applications/VMware\ Fusion.app/Contents/Library/Initialize\ VMware\ Fusion.tool set
   when: fusion_lic_file.changed
   tags: vault
-
