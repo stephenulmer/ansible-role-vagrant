@@ -1,12 +1,4 @@
 ---
-vagrant_brew_packages:
-  - packer
-
-vagrant_brew_casks:
-  - vagrant
-  - vagrant-vmware-utility
-  - vmware-fusion
-
 vagrant_plugins:
   - vagrant-hosts
   - vagrant-cachier
@@ -18,7 +10,10 @@ vagrant_plugins:
 vagrant_plugins_licensed:
   - { name: "vagrant-vmware-desktop", licfile: "vagrant-license-Fusion11.lic" }
 
-fusion_key: !vault |
+vagrant_install_virtualbox: false
+
+vagrant_install_fusion: true
+vagrant_fusion_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           66393032343538396237356635326130623539303938656462333661666533613730316437646338
           6566616531383562626237356633343135633230646238380a323731386431633133313865663632

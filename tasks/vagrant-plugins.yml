@@ -1,0 +1,49 @@
+---
+- name: Get list of installed Vagrant plugins
+  command: "{{ vagrant_exe }} plugin list"
+  register: installed_plugins
+  changed_when: false
+  tags:
+    - always  # so we also have installed_plugins with --tags=vault
+
+- name: Install Vagrant Plugins
+  command: "{{ vagrant_exe }} plugin install {{ item }}"
+  when: not installed_plugins.stdout | regex_search('^' ~ item ~ ' ', multiline=True)
+  with_items: "{{ vagrant_plugins }}"
+
+- name: Install Vagrant plugins requiring a license
+  block:
+    - name: Create temporary directory to decrypt license file(s)
+      tempfile:
+        state: directory
+        suffix: licenses
+      register: tmpdir
+      changed_when: false
+
+    - name: Copy license file(s) from vault to decrypt
+      copy:
+        src: "{{ item.licfile }}"
+        dest: "{{ tmpdir.path + '/' + item.licfile }}"
+      when: not installed_plugins.stdout | regex_search('^' ~ item.name ~ ' ', multiline=True)
+      loop: "{{ vagrant_plugins_licensed }}"
+
+    - name: Install Vagrant Plugins
+      command: "{{ vagrant_exe }} plugin install {{ item.name }}"
+      when: not installed_plugins.stdout | regex_search('^' ~ item.name ~ ' ', multiline=True)
+      loop: "{{ vagrant_plugins_licensed }}"
+
+      ## Don't panic: installed_plugins was calculated *before* any plugins were installed by
+      ## this run of this role.
+    - name: Apply plugin license
+      command: "{{ vagrant_exe }} plugin license {{ item.name }} {{ tmpdir.path + '/' + item.licfile }}"
+      when: not installed_plugins.stdout | regex_search('^' ~ item.name ~ ' ', multiline=True)
+      loop: "{{ vagrant_plugins_licensed }}"
+
+  always:
+    - name: Remove decrypted license files
+      file:
+        path: "{{ tmpdir.path }}"
+        state: absent
+      changed_when: false
+  tags:
+    - vault

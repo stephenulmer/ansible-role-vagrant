@@ -1,0 +1,47 @@
+---
+- name: Install Vagrant
+  homebrew_cask:
+    name: "vagrant"
+    state: present
+
+- name: Rememeber location of the Vagrant executable
+  set_fact:
+    vagrant_exe: "/usr/local/bin/vagrant"
+
+- name: Install VMware Fusion
+  block:
+    - name: Install VMware Fusion Package
+      homebrew_cask:
+        name: "vmware-fusion"
+        state: present
+
+    - name: Install Vagrant VMware Utility
+      homebrew_cask:
+        name: "vagrant-vmware-utility"
+        state: present
+
+    - name: Create the VMware License File
+      become: true
+      copy:
+        content: "{{ vagrant_fusion_key }}"
+        dest: '/Applications/VMware Fusion.app/Contents/Library/License Key.txt'
+      when: vagrant_fusion_key is defined
+      register: fusion_lic_file
+      tags: vault
+
+    - name: Run the VMware Fusion License Tool
+      become: true
+      command: /Applications/VMware\ Fusion.app/Contents/Library/Initialize\ VMware\ Fusion.tool set
+      when: fusion_lic_file.changed  # noqa 503
+      tags: vault
+  when: vagrant_install_fusion
+
+- name: Install VirtualBox
+  homebrew_cask:
+    name: "{{ vbpkgs }}"
+    state: present
+  vars:
+    vbpkgs:
+      - virtualbox
+      - virtual-extension-pack
+  when: vagrant_install_virtualbox

@@ -1,3 +1,14 @@
 ---
 - import_tasks: software.yml
 - import_tasks: per-user.yml
+
+## Install Vagrant + Requested Hypervisors
+- name: Load tasks based on the OS type.
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - default.yml
+
+## Install Vagrant Plug-Ins
+- import_tasks: vagrant-plugins.yml
