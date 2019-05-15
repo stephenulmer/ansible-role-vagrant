@@ -1,0 +1,17 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install Homebrew If Necessary
+      shell: >
+        /usr/bin/yes
+        | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      args:
+        creates: /usr/local/bin/brew
+      when: ansible_os_family == 'Darwin'
+
+    - name: Tap Homebrew Cask
+      homebrew_tap:
+        name: homebrew/cask
+        state: present
+      when: ansible_os_family == 'Darwin'

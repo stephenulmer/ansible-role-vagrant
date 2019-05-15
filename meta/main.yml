@@ -16,8 +16,3 @@ galaxy_info:
   galaxy_tags:
     - development
     - system
-
-dependencies:
-  - { role: geerlingguy.homebrew,
-      homebrew_cask_apps: "{{ vagrant_brew_casks }}",
-      homebrew_installed_packages: "{{ vagrant_brew_packages }}" }
