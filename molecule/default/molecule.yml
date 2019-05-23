@@ -14,6 +14,10 @@ platforms:
     cpus: 2
     config_options:
       synced_folder: False
+  - name: centos-7
+    box: centos/7
+    config_options:
+      synced_folder: False
 provisioner:
   name: ansible
   lint:

@@ -1,0 +1,13 @@
+---
+- name: Calculate Vagrant Package Name
+  set_fact:
+    vagrant_package: "vagrant_{{ vagrant_version }}_{{ ansible_architecture }}.rpm"
+
+- name: Fetch and install Vagrant
+  become: true
+  yum:
+    name: "{{ vagrant_url_base }}/{{ vagrant_package }}"
+
+- name: Rememeber location of the Vagrant executable
+  set_fact:
+    vagrant_exe: "/usr/bin/vagrant"
