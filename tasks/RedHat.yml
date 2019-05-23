@@ -3,10 +3,25 @@
   set_fact:
     vagrant_package: "vagrant_{{ vagrant_version }}_{{ ansible_architecture }}.rpm"
 
+- name: Ask YUM for Vagrant versions
+  become: true
+  yum:
+    list: "vagrant"
+  register: vagrant_yum_list
+
+- name: Filter YUM output for installed version and architecture
+  set_fact:
+    vagrant_installed_versions: "{{ vagrant_yum_list.results
+      | selectattr('arch', 'equalto', ansible_architecture)
+      | selectattr('yumstate', 'equalto', 'installed')
+      | map(attribute='version')
+      | list }}"
+
 - name: Fetch and install Vagrant
   become: true
   yum:
     name: "{{ vagrant_url_base }}/{{ vagrant_package }}"
+  when: vagrant_version not in vagrant_installed_versions
 
 - name: Rememeber location of the Vagrant executable
   set_fact:
