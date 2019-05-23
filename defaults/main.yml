@@ -4,6 +4,8 @@ vagrant_url_base: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}"
 
 vagrant_plugins: []
 vagrant_plugins_licensed: []
+vagrant_dotfile_path: ""
+vagrant_default_provider: ""
 
 vagrant_install_virtualbox: false
 

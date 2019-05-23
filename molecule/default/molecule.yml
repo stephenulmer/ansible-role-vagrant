@@ -14,6 +14,8 @@ platforms:
     cpus: 2
     config_options:
       synced_folder: False
+    groups:
+      - fusion
   - name: centos-7
     box: centos/7
     config_options:
@@ -25,6 +27,8 @@ provisioner:
   inventory:
     links:
       group_vars: ../inventory/group_vars
+  env:
+    ANSIBLE_VAULT_PASSWORD_FILE: ${HOME}/.vault-password
 verifier:
   name: testinfra
   lint:

@@ -10,10 +10,12 @@
   lineinfile:
     path: "{{ ansible_env.HOME }}/.bashrc"
     regexp: 'VAGRANT_DOTFILE_PATH='
-    line: 'export VAGRANT_DOTFILE_PATH="${HOME}/Virtual Machines.localized/Vagrant"'
+    line: 'export VAGRANT_DOTFILE_PATH="{{ vagrant_dotfile_path }}"'
+  when: vagrant_dotfile_path | length > 0
 
 - name: Set VAGRANT_DEFAULT_PROVIDER in .bashrc
   lineinfile:
     path: "{{ ansible_env.HOME }}/.bashrc"
     regexp: 'VAGRANT_DEFAULT_PROVIDER='
-    line: 'export VAGRANT_DEFAULT_PROVIDER="vmware_desktop"'
+    line: 'export VAGRANT_DEFAULT_PROVIDER="{{ vagrant_default_provider }}"'
+  when: vagrant_default_provider | length > 0
