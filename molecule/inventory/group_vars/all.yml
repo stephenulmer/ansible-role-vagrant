@@ -1,0 +1,4 @@
+---
+vagrant_plugins:
+  - vagrant-cachier
+  - vagrant-hostmanager
