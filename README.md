@@ -1,5 +1,6 @@
-# Ansible Role workstation-vagrant
+# ansible-role-vagrant
 
-This role aims to simplify the installation of Vagrant on macOS.
+This role aims to install Vagrant, Vagrant plugins, and a desktop hypervisor.
 
-*vargrant_brew_packages*, *vagrant_brew_casks*, and *vagrant_plugins* are used to control the behavior of the role.
+This is the first role factored out of the macos-setup-ansible repo, and my first shot at using Molecule (or anything really) to do automated testing of the role.
+
