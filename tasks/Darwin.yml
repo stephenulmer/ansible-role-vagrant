@@ -27,13 +27,11 @@
         dest: '/Applications/VMware Fusion.app/Contents/Library/License Key.txt'
       when: vagrant_fusion_key is defined
       register: fusion_lic_file
-      tags: vault
 
     - name: Run the VMware Fusion License Tool
       become: true
       command: /Applications/VMware\ Fusion.app/Contents/Library/Initialize\ VMware\ Fusion.tool set
       when: fusion_lic_file.changed  # noqa 503
-      tags: vault
   when: vagrant_install_fusion | bool
 
 - name: Install VirtualBox

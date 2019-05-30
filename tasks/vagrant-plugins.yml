@@ -3,8 +3,6 @@
   command: "{{ vagrant_exe }} plugin list"
   register: installed_plugins
   changed_when: false
-  tags:
-    - always  # so we also have installed_plugins with --tags=vault
 
 - name: Install Vagrant Plugins
   command: "{{ vagrant_exe }} plugin install {{ item }}"
@@ -20,7 +18,7 @@
       register: tmpdir
       changed_when: false
 
-    - name: Copy license file(s) from vault to decrypt
+    - name: Copy license file(s) for installation and (maybe) decryption
       copy:
         src: "{{ item.licfile }}"
         dest: "{{ tmpdir.path + '/' + item.licfile }}"
@@ -40,10 +38,8 @@
       loop: "{{ vagrant_plugins_licensed }}"
 
   always:
-    - name: Remove decrypted license files
+    - name: Remove local copy of license files
       file:
         path: "{{ tmpdir.path }}"
         state: absent
       changed_when: false
-  tags:
-    - vault
