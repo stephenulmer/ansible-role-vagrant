@@ -19,9 +19,6 @@ platforms:
 
 provisioner:
   name: ansible
-  inventory:
-    links:
-      group_vars: ../inventory/group_vars
   env:
     ANSIBLE_VAULT_PASSWORD_FILE: ${HOME}/.vault-password
 

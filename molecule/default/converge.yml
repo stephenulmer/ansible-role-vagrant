@@ -1,5 +1,11 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    vagrant_plugins:
+      - vagrant-cachier
+      - vagrant-hostmanagerv
+    vagrant_plugins_licensed:
+      - { name: "vagrant-vmware-desktop", licfile: "vagrant-license-Fusion11.lic" }
   roles:
     - role: ansible-role-vagrant
