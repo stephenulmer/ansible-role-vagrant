@@ -1,35 +1,29 @@
 ---
 dependency:
   name: galaxy
+
 driver:
   name: vagrant
-  provider:
-    name: vmware_desktop
-lint:
-  name: yamllint
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
+
 platforms:
-  - name: macos-mojave
-    box: msl/macos_mojave_10.14
-    memory: 2048
-    cpus: 2
-    config_options:
-      synced_folder: False
-    groups:
-      - fusion
+  - name: macos
+    box: macinbox
   - name: centos-7
     box: centos/7
-    config_options:
-      synced_folder: False
+
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
   inventory:
     links:
       group_vars: ../inventory/group_vars
   env:
     ANSIBLE_VAULT_PASSWORD_FILE: ${HOME}/.vault-password
+
 verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  name: ansible
