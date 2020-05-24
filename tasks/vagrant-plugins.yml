@@ -5,9 +5,12 @@
   changed_when: false
 
 - name: Install Vagrant Plugins
-  command: "{{ vagrant_exe }} plugin install {{ item }}"
-  when: not installed_plugins.stdout | regex_search('^' ~ item ~ ' ', multiline=True)
+  command: "{{ vagrant_exe }} plugin install {{ plugin }}"
+  when: not installed_plugins.stdout | regex_search('^' ~ plugin ~ ' ', multiline=True)
   with_items: "{{ vagrant_plugins }}"
+  loop_control:
+    loop_var: plugin
+    label: "{{ plugin }}"
 
 - name: Install Vagrant plugins requiring a license
   block:
@@ -20,22 +23,31 @@
 
     - name: Copy license file(s) for installation and (maybe) decryption
       copy:
-        src: "{{ item.licfile }}"
-        dest: "{{ tmpdir.path + '/' + item.licfile }}"
-      when: not installed_plugins.stdout | regex_search('^' ~ item.name ~ ' ', multiline=True)
+        src: "{{ plugin.licfile }}"
+        dest: "{{ tmpdir.path + '/' + plugin.licfile }}"
+      when: not installed_plugins.stdout | regex_search('^' ~ plugin.name ~ ' ', multiline=True)
       loop: "{{ vagrant_plugins_licensed }}"
+      loop_control:
+        loop_var: plugin
+        label: "{{ plugin.licfile }}"
 
     - name: Install Vagrant Plugins
-      command: "{{ vagrant_exe }} plugin install {{ item.name }}"
-      when: not installed_plugins.stdout | regex_search('^' ~ item.name ~ ' ', multiline=True)
+      command: "{{ vagrant_exe }} plugin install {{ plugin.name }}"
+      when: not installed_plugins.stdout | regex_search('^' ~ plugin.name ~ ' ', multiline=True)
       loop: "{{ vagrant_plugins_licensed }}"
+      loop_control:
+        loop_var: plugin
+        label: "{{ plugin }}"
 
       ## Don't panic: installed_plugins was calculated *before* any plugins were installed by
       ## this run of this role.
     - name: Apply plugin license
-      command: "{{ vagrant_exe }} plugin license {{ item.name }} {{ tmpdir.path + '/' + item.licfile }}"
-      when: not installed_plugins.stdout | regex_search('^' ~ item.name ~ ' ', multiline=True)
+      command: "{{ vagrant_exe }} plugin license {{ plugin.name }} {{ tmpdir.path + '/' + plugin.licfile }}"
+      when: not installed_plugins.stdout | regex_search('^' ~ plugin.name ~ ' ', multiline=True)
       loop: "{{ vagrant_plugins_licensed }}"
+      loop_control:
+        loop_var: plugin
+        label: "{{ plugin }}"
 
   always:
     - name: Remove local copy of license files
