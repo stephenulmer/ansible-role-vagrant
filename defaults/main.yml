@@ -6,8 +6,3 @@ vagrant_plugins: []
 vagrant_plugins_licensed: []
 vagrant_dotfile_path: ""
 vagrant_default_provider: ""
-
-vagrant_install_virtualbox: false
-
-vagrant_install_fusion: false
-vagrant_fusion_key: ""

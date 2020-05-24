@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: vagrant
   author: Stephen Ulmer
-  description: Vagrant Workstation for macOS
+  description: Set up a Vagrant Workstation
   company: Alleve Consulting, Inc.
   license: MIT
 

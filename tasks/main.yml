@@ -1,5 +1,5 @@
 ---
-## Install Vagrant + Requested Hypervisors
+## Install Vagrant Package
 - name: Load tasks based on the OS type.
   include_tasks: "{{ item }}"
   with_first_found:
