@@ -1,17 +1,17 @@
 ---
 galaxy_info:
+  role_name: vagrant
   author: Stephen Ulmer
   description: Vagrant Workstation for macOS
   company: Alleve Consulting, Inc.
   license: MIT
 
-  min_ansible_version: 2.5
+  min_ansible_version: 2.9
 
   platforms:
     - name: MacOSX
       versions:
-        - all
-        - any
+        - 10.15
 
   galaxy_tags:
     - development
