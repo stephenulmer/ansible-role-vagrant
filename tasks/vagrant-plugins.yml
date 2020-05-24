@@ -39,8 +39,8 @@
         loop_var: plugin
         label: "{{ plugin }}"
 
-      ## Don't panic: installed_plugins was calculated *before* any plugins were installed by
-      ## this run of this role.
+    ## Don't panic: installed_plugins was calculated *before* any plugins were installed by
+    ## this run of this role.
     - name: Apply plugin license
       command: "{{ vagrant_exe }} plugin license {{ plugin.name }} {{ tmpdir.path + '/' + plugin.licfile }}"
       when: not installed_plugins.stdout | regex_search('^' ~ plugin.name ~ ' ', multiline=True)

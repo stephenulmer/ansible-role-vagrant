@@ -8,7 +8,7 @@
         | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
       args:
         creates: /usr/local/bin/brew
-      when: ansible_os_family == 'Darwin'
+      when: ansible_os_family == 'Darwin'  # noqa 306
 
     - name: Tap Homebrew Cask
       homebrew_tap:

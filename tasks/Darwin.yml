@@ -7,4 +7,3 @@
 - name: Rememeber location of the Vagrant executable
   set_fact:
     vagrant_exe: "/usr/local/bin/vagrant"
-
