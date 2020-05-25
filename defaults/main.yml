@@ -1,5 +1,5 @@
 ---
-vagrant_version: 2.2.4
+vagrant_version: 2.2.9
 vagrant_url_base: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}"
 
 vagrant_plugins: []
